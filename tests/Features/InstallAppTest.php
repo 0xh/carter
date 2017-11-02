@@ -35,6 +35,26 @@ class InstallAppTest extends TestCase
     }
 
     /** @test */
+    function install_route_handles_post_request()
+    {
+        config()->set('thrust', [
+            'client_id' => 'CLIENT-ID',
+            'redirect_uri' => 'REDIRECT-URL',
+            'scope' => ['READ', 'WRITE'],
+        ]);
+        NonceGenerator::shouldReceive('generate')->andReturn('RANDOM-NONCE');
+
+        $response = $this->withoutExceptionHandling()->post(route('thrust.install', [
+            'shop' => 'example.myshopify.com',
+        ]));
+
+        $url = parse_url($response->headers->get('Location'));
+        $this->assertEquals(
+            'https://example.myshopify.com/admin/oauth/authorize', "{$url['scheme']}://{$url['host']}{$url['path']}"
+        );
+    }
+
+    /** @test */
     function redirect_to_sign_up_form_if_shop_domain_missing()
     {
         $response = $this->withoutExceptionHandling()->get(route('thrust.install', [
