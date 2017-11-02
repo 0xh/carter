@@ -1,6 +1,6 @@
 ## Introduction
 
-Thrust provides everything you need to create an embedded Shopify application. Thrust allows you to focus on what makes your app unique.
+Thrust provides everything you need to create an embedded Shopify application with Laravel. Thrust allows you to focus on what makes your app unique.
 
 ## License
 
