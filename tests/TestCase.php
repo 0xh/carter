@@ -5,9 +5,9 @@ namespace Tests;
 use Mockery;
 use NickyWoolf\Thrust\ThrustServiceProvider;
 use Orchestra\Database\ConsoleServiceProvider;
-use Orchestra\Testbench\TestCase as TestbenchTestCase;
+use Orchestra\Testbench\TestCase as BaseTestCase;
 
-class TestCase extends TestbenchTestCase
+class TestCase extends BaseTestCase
 {
     protected function setUp()
     {
@@ -16,6 +16,8 @@ class TestCase extends TestbenchTestCase
         if (! $this->app->routesAreCached()) {
             require __DIR__.'/../src/routes.php';
         }
+
+        config(['auth.providers.users.model' => User::class]);
     }
 
     protected function tearDown()
@@ -33,5 +35,19 @@ class TestCase extends TestbenchTestCase
             ConsoleServiceProvider::class,
             ThrustServiceProvider::class,
         ];
+    }
+
+    protected function migrate()
+    {
+        $this->loadLaravelMigrations([
+            '--database' => 'testing',
+        ]);
+
+        $this->loadMigrationsFrom([
+            '--database' => 'testing',
+            '--realpath' => realpath(__DIR__.'/../src/migrations'),
+        ]);
+
+        return $this;
     }
 }

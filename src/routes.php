@@ -13,4 +13,10 @@ Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function 
         ->middleware([HasShopDomain::class])
         ->name('thrust.install');
 
+    $router->get('shopify/register', 'RegisteredShopsController@store')
+        ->name('thrust.register');
+
+    $router->get('shopify/dashboard', 'DashboardController@index')
+        ->name('thrust.dashboard');
+
 });
