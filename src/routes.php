@@ -1,7 +1,16 @@
 <?php
 
-Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function () {
+use Illuminate\Routing\Router;
+use Illuminate\Support\Facades\Route;
+use NickyWoolf\Thrust\Http\Middleware\HasShopDomain;
 
-    Route::get('/shopify/install', 'InstalledAppsController@store')->name('thrust.install');
+Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function (Router $router) {
+
+    $router->get('shopify/signup', 'InstalledAppsController@create')
+        ->name('thrust.signup');
+
+    $router->get('shopify/install', 'InstalledAppsController@store')
+        ->middleware([HasShopDomain::class])
+        ->name('thrust.install');
 
 });

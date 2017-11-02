@@ -33,4 +33,14 @@ class InstallAppTest extends TestCase
         $this->assertEquals('RANDOM-NONCE', $query['state']);
         $this->assertEquals('RANDOM-NONCE', session('thrust.oauth-state'));
     }
+
+    /** @test */
+    function redirect_to_sign_up_form_if_shop_domain_missing()
+    {
+        $response = $this->withoutExceptionHandling()->get(route('thrust.install', [
+            'shop' => null,
+        ]));
+
+        $response->assertRedirect(route('thrust.signup'));
+    }
 }
