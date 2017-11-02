@@ -1,6 +1,9 @@
 <?php
 
+namespace Tests\Features;
+
 use Facades\NickyWoolf\Thrust\NonceGenerator;
+use Tests\TestCase;
 
 class InstallAppTest extends TestCase
 {
