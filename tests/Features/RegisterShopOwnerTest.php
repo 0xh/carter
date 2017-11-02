@@ -24,8 +24,7 @@ class RegisterShopOwnerTest extends TestCase
             'code' => 'SHOPIFY-OAUTH-CODE',
             'state' => 'RANDOM-NONCE',
         ];
-        $shopifyRequest = new Request(config('thrust.client_secret'));
-        $request['hmac'] = $shopifyRequest->sign($request);
+        $request['hmac'] = app(Request::class)->sign($request);
         AccessToken::shouldReceive('request')
             ->with('SHOPIFY-OAUTH-CODE')
             ->once()
@@ -55,5 +54,18 @@ class RegisterShopOwnerTest extends TestCase
         $this->assertEquals('SHOPIFY-TOKEN', $user->shopify_token);
         $this->assertEquals('READ,WRITE', $user->shopify_scope);
         $this->assertNull($user->shopify_charge_id);
+    }
+
+    /** @test */
+    function abort_registration_if_nonce_doesnt_match()
+    {
+        config('carter.client_secret', 'VALID-CLIENT-SECRET');
+        session(['thrust.oauth-state' => 'THE-CORRECT-NONCE']);
+        $request= ['state' => 'AN-INVALID-NONCE'];
+        $request['hmac'] = app(Request::class)->sign($request);
+
+        $response = $this->get(route('thrust.register', $request));
+
+        $response->assertStatus(403);
     }
 }

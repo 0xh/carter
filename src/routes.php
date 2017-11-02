@@ -3,6 +3,7 @@
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Route;
 use NickyWoolf\Thrust\Http\Middleware\HasShopDomain;
+use NickyWoolf\Thrust\Http\Middleware\HasValidNonce;
 
 Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function (Router $router) {
 
@@ -14,6 +15,7 @@ Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function 
         ->name('thrust.install');
 
     $router->get('shopify/register', 'RegisteredShopsController@store')
+        ->middleware([HasValidNonce::class])
         ->name('thrust.register');
 
     $router->get('shopify/dashboard', 'DashboardController@index')
