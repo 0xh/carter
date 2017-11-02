@@ -1,0 +1,11 @@
+{
+    "name": "nickywoolf/thrust",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Nicky Woolf",
+            "email": "woolfnicky@gmail.com"
+        }
+    ],
+    "require": {}
+}
