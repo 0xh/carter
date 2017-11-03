@@ -58,6 +58,52 @@ class RegisterShopOwnerTest extends TestCase
     }
 
     /** @test */
+    function can_register_mutliple_stores_with_same_email_addres()
+    {
+        $this->migrate()->withFactories();
+        factory(User::class)->create([
+            'email' => 'emily@example-shop.com',
+            'shopify_domain' => 'my-first-store.myshopify.com'
+        ]);
+        session(['thrust.oauth-state' => 'RANDOM-NONCE']);
+        config()->set('thrust', [
+            'client_secret' => 'SHOPIFY-CLIENT-SECRET',
+            'scope' => ['READ', 'WRITE'],
+        ]);
+        $request = [
+            'shop' => 'example.myshopify.com',
+            'code' => 'SHOPIFY-OAUTH-CODE',
+            'state' => 'RANDOM-NONCE',
+        ];
+        $request['hmac'] = app(Request::class)->sign($request);
+        AccessToken::shouldReceive('request')
+            ->with('SHOPIFY-OAUTH-CODE')
+            ->once()
+            ->andReturn([
+                'access_token' => 'SHOPIFY-TOKEN',
+                'scope' => 'READ,WRITE',
+            ]);
+        Shop::shouldReceive('get')
+            ->with('SHOPIFY-TOKEN')
+            ->once()
+            ->andReturn([
+                'id' => 1234567890,
+                'name' => 'Example Shop',
+                'email' => 'emily@example-shop.com',
+                'myshopify_domain' => 'example.myshopify.com',
+            ]);
+
+        $response = $this->withoutExceptionHandling()->get(route('thrust.register', $request));
+
+        $response->assertRedirect(route('thrust.dashboard'));
+        $this->assertTrue(Auth::check());
+        $users = User::whereEmail('emily@example-shop.com')->get();
+        $this->assertCount(2, $users);
+        $this->assertTrue($users->contains('shopify_domain', 'example.myshopify.com'));
+        $this->assertTrue($users->contains('shopify_domain', 'my-first-store.myshopify.com'));
+    }
+
+    /** @test */
     function abort_registration_if_nonce_doesnt_match()
     {
         config('thrust.client_secret', 'VALID-CLIENT-SECRET');
