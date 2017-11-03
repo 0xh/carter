@@ -7,6 +7,7 @@ use Facades\NickyWoolf\Thrust\Shop;
 use Illuminate\Support\Facades\Auth;
 use NickyWoolf\Shopify\Request;
 use Tests\TestCase;
+use Tests\User;
 
 class RegisterShopOwnerTest extends TestCase
 {
@@ -140,5 +141,18 @@ class RegisterShopOwnerTest extends TestCase
         $response = $this->get(route('thrust.register', $request));
 
         $response->assertStatus(403);
+    }
+
+    /** @test */
+    function redirect_from_register_if_logged_in()
+    {
+        $this->migrate()->withFactories();
+        $user = factory(User::class)->create();
+
+        $response = $this->withoutExceptionHandling()
+            ->actingAs($user)
+            ->get(route('thrust.register'));
+
+        $response->assertRedirect(route('thrust.dashboard'));
     }
 }

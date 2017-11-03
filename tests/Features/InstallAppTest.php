@@ -4,6 +4,7 @@ namespace Tests\Features;
 
 use Facades\NickyWoolf\Thrust\NonceGenerator;
 use Tests\TestCase;
+use Tests\User;
 
 class InstallAppTest extends TestCase
 {
@@ -62,5 +63,35 @@ class InstallAppTest extends TestCase
         ]));
 
         $response->assertRedirect(route('thrust.signup'));
+    }
+
+    /** @test */
+    function redirect_from_signup_if_logged_in()
+    {
+        $this->migrate()->withFactories();
+        $user = factory(User::class)->create();
+
+        $response = $this->withoutExceptionHandling()
+            ->actingAs($user)
+            ->get(route('thrust.signup', [
+                'shop' => 'example.myshopify.com',
+            ]));
+
+        $response->assertRedirect(route('thrust.dashboard'));
+    }
+
+    /** @test */
+    function redirect_from_install_if_logged_in()
+    {
+        $this->migrate()->withFactories();
+        $user = factory(User::class)->create();
+
+        $response = $this->withoutExceptionHandling()
+            ->actingAs($user)
+            ->get(route('thrust.install', [
+                'shop' => 'example.myshopify.com',
+            ]));
+
+        $response->assertRedirect(route('thrust.dashboard'));
     }
 }
