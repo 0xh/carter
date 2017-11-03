@@ -15,10 +15,15 @@ class AccessToken
 
     public function request($code)
     {
-        return $this->shopify->post('oauth/access_token', [
+        return $this->shopify->post('oauth/access_token', $this->requestData($code))->json();
+    }
+
+    protected function requestData($code)
+    {
+        return [
             'client_id' => config('thrust.client_id'),
             'client_secret' => config('thrust.client_secret'),
             'code' => $code,
-        ])->json();
+        ];
     }
 }
