@@ -50,4 +50,9 @@ class TestCase extends BaseTestCase
 
         return $this;
     }
+
+    protected function withFactories($path = null)
+    {
+        return parent::withFactories($path ?: __DIR__.'/Factories');
+    }
 }

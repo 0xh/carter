@@ -11,6 +11,7 @@ class ThrustServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->loadViewsFrom(__DIR__.'/views', 'thrust');
         $this->mergeConfigFrom(__DIR__.'/config.php', 'thrust');
 
         $this->publishes([
