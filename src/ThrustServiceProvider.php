@@ -10,7 +10,11 @@ class ThrustServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->loadMigrationsFrom(__DIR__.'/migrations');
+        $this->mergeConfigFrom(__DIR__.'/config.php', 'thrust');
+
         $this->publishes([
+            __DIR__.'/config.php' => config_path('thrust.php'),
             __DIR__.'/routes.php' => base_path('/routes/thrust.php'),
         ]);
     }
