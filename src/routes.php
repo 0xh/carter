@@ -11,10 +11,6 @@ use NickyWoolf\Thrust\Http\Middleware\RedirectIfAuthenticated;
 
 Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function (Router $router) {
 
-    $router->get('shopify/login', 'AuthenticatedShopsController@store')
-        ->name('thrust.login');
-
-
     /**
      * Guest Routes
      */
@@ -32,6 +28,10 @@ Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function 
             HasValidHmac::class,
             HasValidHostname::class,
         ])->name('thrust.register');
+
+        $router->get('shopify/login', 'AuthenticatedShopsController@store')->middleware([
+            HasShopDomain::class,
+        ])->name('thrust.login');
 
         $router->get('/shopify/expired_session', 'ExpiredSessionsController@index')
             ->name('thrust.expired-session');

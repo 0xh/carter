@@ -18,4 +18,9 @@ trait OwnsShop
             'shopify_scope' => $token['scope'],
         ]);
     }
+
+    public function scopeShopOwner($query, $shop)
+    {
+        return $query->where('shopify_domain', $shop);
+    }
 }
