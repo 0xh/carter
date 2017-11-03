@@ -14,8 +14,6 @@ Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function 
     $router->get('shopify/login', 'AuthenticatedShopsController@store')
         ->name('thrust.login');
 
-    $router->get('/shopify/expired_session', 'ExpiredSessionsController@index')
-        ->name('thrust.expired-session');
 
     /**
      * Guest Routes
@@ -34,6 +32,9 @@ Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function 
             HasValidHmac::class,
             HasValidHostname::class,
         ])->name('thrust.register');
+
+        $router->get('/shopify/expired_session', 'ExpiredSessionsController@index')
+            ->name('thrust.expired-session');
 
     });
 
