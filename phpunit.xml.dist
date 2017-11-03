@@ -10,15 +10,20 @@
          stopOnFailure="false"
          syntaxCheck="false"
 >
-    <logging>
-        <log type="coverage-clover" target="build/logs/clover.xml"/>
-    </logging>
     <testsuites>
         <testsuite name="Package Test Suite">
             <directory suffix="Test.php">./tests/</directory>
             <exclude>./tests/Factories</exclude>
         </testsuite>
     </testsuites>
+    <filter>
+        <whitelist processUncoveredFilesFromWhitelist="true">
+            <directory suffix=".php">./src</directory>
+        </whitelist>
+    </filter>
+    <logging>
+        <log type="coverage-clover" target="build/logs/clover.xml"/>
+    </logging>
     <php>
         <env name="APP_ENV" value="testing"/>
         <env name="CACHE_DRIVER" value="array"/>
