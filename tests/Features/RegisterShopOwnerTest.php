@@ -59,9 +59,82 @@ class RegisterShopOwnerTest extends TestCase
     /** @test */
     function abort_registration_if_nonce_doesnt_match()
     {
-        config('carter.client_secret', 'VALID-CLIENT-SECRET');
+        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
         session(['thrust.oauth-state' => 'THE-CORRECT-NONCE']);
         $request= ['state' => 'AN-INVALID-NONCE'];
+        $request['hmac'] = app(Request::class)->sign($request);
+
+        $response = $this->get(route('thrust.register', $request));
+
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    function abort_registration_if_nonce_is_an_empty_string()
+    {
+        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
+        session(['thrust.oauth-state' => '']);
+        $request= ['state' => ''];
+        $request['hmac'] = app(Request::class)->sign($request);
+
+        $response = $this->get(route('thrust.register', $request));
+
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    function abort_registration_if_stored_nonce_is_null()
+    {
+        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
+        session(['thrust.oauth-state' => null]);
+        $request= ['state' => null];
+        $request['hmac'] = app(Request::class)->sign($request);
+
+        $response = $this->get(route('thrust.register', $request));
+
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    function abort_registration_if_hmac_validation_fails()
+    {
+        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
+        session(['thrust.oauth-state' => 'THE-CORRECT-NONCE']);
+        $request= ['state' => 'THE-CORRECT-NONCE'];
+        $request['hmac'] = (new Request('INVALID-CLIENT-SECRET'))->sign($request);
+
+        $response = $this->get(route('thrust.register', $request));
+
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    function abort_registration_if_shop_domain_contains_special_characters()
+    {
+        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
+        session(['thrust.oauth-state' => 'RANDOM-NONCE']);
+        $request = [
+            'shop' => '$example().myshopify.com',
+            'code' => 'SHOPIFY-OAUTH-CODE',
+            'state' => 'RANDOM-NONCE',
+        ];
+        $request['hmac'] = app(Request::class)->sign($request);
+
+        $response = $this->get(route('thrust.register', $request));
+
+        $response->assertStatus(403);
+    }
+
+    /** @test */
+    function abort_registration_if_shop_domain_doesnt_end_in_myshopify_dot_com()
+    {
+        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
+        session(['thrust.oauth-state' => 'RANDOM-NONCE']);
+        $request = [
+            'shop' => 'example-shop.com',
+            'code' => 'SHOPIFY-OAUTH-CODE',
+            'state' => 'RANDOM-NONCE',
+        ];
         $request['hmac'] = app(Request::class)->sign($request);
 
         $response = $this->get(route('thrust.register', $request));
