@@ -11,13 +11,10 @@ use NickyWoolf\Thrust\Http\Middleware\RedirectIfAuthenticated;
 
 Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function (Router $router) {
 
-    /**
-     * Guest Routes
-     */
+    /* Guest Routes */
     $router->group(['middleware' => [RedirectIfAuthenticated::class]], function (Router $router) {
 
-        $router->get('shopify/signup', 'InstalledAppsController@create')
-            ->name('thrust.signup');
+        $router->get('shopify/signup', 'InstalledAppsController@create')->name('thrust.signup');
 
         $router->match(['get', 'post'], 'shopify/install', 'InstalledAppsController@store')->middleware([
             HasShopDomain::class,
@@ -33,18 +30,15 @@ Route::group(['namespace' => 'NickyWoolf\\Thrust\\Http\\Controllers'], function 
             HasShopDomain::class,
         ])->name('thrust.login');
 
-        $router->get('/shopify/expired_session', 'ExpiredSessionsController@index')
-            ->name('thrust.expired-session');
+        $router->get('/shopify/expired_session', 'ExpiredSessionsController@index')->name('thrust.expired-session');
 
     });
 
-    /**
-     * Auth Routes
-     */
+    /* Auth Routes */
     $router->group(['middleware' => [Authenticate::class]], function (Router $router) {
 
-        $router->get('shopify/dashboard', 'DashboardController@index')
-            ->name('thrust.dashboard');
+        $router->get('shopify/dashboard', 'DashboardController@index')->name('thrust.dashboard');
 
     });
+
 });
