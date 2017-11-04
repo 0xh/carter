@@ -38,18 +38,19 @@
         h2 {
             color: #979cbf;
             font-family: "Open Sans";
-            font-size: 1em;
+            font-size: 4em;
             font-weight: 300;
             letter-spacing: 0.05em;
             line-height: 100%;
             margin: 0;
+            opacity: 0.5;
             text-align: center;
         }
     </style>
 
     <div>
         <h1>Launch</h1>
-        <h2>Embedded Shopify App</h2>
+        <h2>🚀</h2>
     </div>
 @stop
 
