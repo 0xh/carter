@@ -17,7 +17,11 @@
     "orchestra/testbench": "~3.5",
     "orchestra/database": "~3.5",
     "doctrine/annotations": "1.4.*",
-    "doctrine/dbal": "~2.5",
+    "doctrine/cache": "1.6.*",
+    "doctrine/collections": "1.4.*",
+    "doctrine/common": "2.7.*",
+    "doctrine/dbal": "2.5.*",
+    "doctrine/instantiator": "1.0.*",
     "mockery/mockery": "~1.0"
   },
   "autoload": {
