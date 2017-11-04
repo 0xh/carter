@@ -16,10 +16,10 @@ class ViewDashboardTest extends TestCase
 
         $response = $this->withoutExceptionHandling()
             ->actingAs($user)
-            ->get(route('thrust.dashboard'));
+            ->get(route('launch.dashboard'));
 
         $response->assertStatus(200);
-        $response->assertViewIs('thrust::embedded.dashboard');
+        $response->assertViewIs('launch::embedded.dashboard');
     }
 
     /** @test */
@@ -28,11 +28,11 @@ class ViewDashboardTest extends TestCase
         $this->migrate()->withFactories();
         $this->assertTrue(Auth::guest());
 
-        $response = $this->withoutExceptionHandling()->get(route('thrust.dashboard', [
+        $response = $this->withoutExceptionHandling()->get(route('launch.dashboard', [
             'shop' => 'example-shop.myshopify.com',
         ]));
 
-        $response->assertRedirect(route('thrust.login', ['shop' => 'example-shop.myshopify.com']));
+        $response->assertRedirect(route('launch.login', ['shop' => 'example-shop.myshopify.com']));
     }
 
     /** @test */
@@ -41,10 +41,10 @@ class ViewDashboardTest extends TestCase
         $this->migrate()->withFactories();
         $this->assertTrue(Auth::guest());
 
-        $response = $this->withoutExceptionHandling()->get(route('thrust.dashboard', [
+        $response = $this->withoutExceptionHandling()->get(route('launch.dashboard', [
             'shop' => null,
         ]));
 
-        $response->assertRedirect(route('thrust.expired-session'));
+        $response->assertRedirect(route('launch.expired-session'));
     }
 }

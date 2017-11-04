@@ -3,7 +3,7 @@
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 
-class AddThrustColumnsToUsers extends Migration
+class AddLaunchColumnsToUsers extends Migration
 {
     public function up()
     {

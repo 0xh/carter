@@ -1,8 +1,8 @@
 <?php
 
-namespace NickyWoolf\Thrust\Http\Controllers;
+namespace NickyWoolf\Launch\Http\Controllers;
 
-use Facades\NickyWoolf\Thrust\NonceGenerator;
+use Facades\NickyWoolf\Launch\NonceGenerator;
 use NickyWoolf\Shopify\Shopify;
 
 class InstalledAppsController extends Controller
@@ -10,7 +10,7 @@ class InstalledAppsController extends Controller
     public function store(Shopify $shopify)
     {
         $nonce = tap(NonceGenerator::generate(), function ($nonce) {
-            session(['thrust.oauth-state' => $nonce]);
+            session(['launch.oauth-state' => $nonce]);
         });
 
         return redirect($this->authorizationUrl($shopify, $nonce));
@@ -19,7 +19,7 @@ class InstalledAppsController extends Controller
     protected function authorizationUrl($shopify, $nonce)
     {
         return $shopify->authorize(
-            config('thrust.client_id'), config('thrust.scope'), config('thrust.redirect_uri'), $nonce
+            config('launch.client_id'), config('launch.scope'), config('launch.redirect_uri'), $nonce
         );
     }
 }

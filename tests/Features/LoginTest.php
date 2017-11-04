@@ -18,9 +18,9 @@ class LoginTest extends TestCase
         ]);
         $this->assertTrue(Auth::guest());
 
-        $response = $this->withoutExceptionHandling()->get(route('thrust.login', ['shop' => $shop]));
+        $response = $this->withoutExceptionHandling()->get(route('launch.login', ['shop' => $shop]));
 
-        $response->assertRedirect(route('thrust.dashboard'));
+        $response->assertRedirect(route('launch.dashboard'));
         $this->assertTrue(Auth::check());
         $this->assertTrue(Auth::user()->is($user));
     }
@@ -30,9 +30,9 @@ class LoginTest extends TestCase
     {
         $this->assertTrue(Auth::guest());
 
-        $response = $this->withoutExceptionHandling()->get(route('thrust.login', ['shop' => null]));
+        $response = $this->withoutExceptionHandling()->get(route('launch.login', ['shop' => null]));
 
-        $response->assertRedirect(route('thrust.signup'));
+        $response->assertRedirect(route('launch.signup'));
         $this->assertTrue(Auth::guest());
     }
 
@@ -44,8 +44,8 @@ class LoginTest extends TestCase
             'shopify_domain' => 'example-shop.myshopify.com',
         ]);
 
-        $response = $this->actingAs($user)->get(route('thrust.login'));
+        $response = $this->actingAs($user)->get(route('launch.login'));
 
-        $response->assertRedirect(route('thrust.dashboard'));
+        $response->assertRedirect(route('launch.dashboard'));
     }
 }

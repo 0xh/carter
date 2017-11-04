@@ -2,8 +2,8 @@
 
 namespace Tests\Features;
 
-use Facades\NickyWoolf\Thrust\AccessToken;
-use Facades\NickyWoolf\Thrust\Shop;
+use Facades\NickyWoolf\Launch\AccessToken;
+use Facades\NickyWoolf\Launch\Shop;
 use Illuminate\Support\Facades\Auth;
 use NickyWoolf\Shopify\Request;
 use Tests\TestCase;
@@ -15,8 +15,8 @@ class RegisterShopOwnerTest extends TestCase
     function register_shop_after_access_granted()
     {
         $this->migrate();
-        session(['thrust.oauth-state' => 'RANDOM-NONCE']);
-        config()->set('thrust', [
+        session(['launch.oauth-state' => 'RANDOM-NONCE']);
+        config()->set('launch', [
             'client_secret' => 'SHOPIFY-CLIENT-SECRET',
             'scope' => ['READ', 'WRITE'],
         ]);
@@ -43,9 +43,9 @@ class RegisterShopOwnerTest extends TestCase
                 'myshopify_domain' => 'example.myshopify.com',
             ]);
 
-        $response = $this->withoutExceptionHandling()->get(route('thrust.register', $request));
+        $response = $this->withoutExceptionHandling()->get(route('launch.register', $request));
 
-        $response->assertRedirect(route('thrust.dashboard'));
+        $response->assertRedirect(route('launch.dashboard'));
         $this->assertTrue(Auth::check());
         $user = Auth::user();
         $this->assertEquals('Example Shop', $user->name);
@@ -65,8 +65,8 @@ class RegisterShopOwnerTest extends TestCase
             'email' => 'emily@example-shop.com',
             'shopify_domain' => 'my-first-store.myshopify.com'
         ]);
-        session(['thrust.oauth-state' => 'RANDOM-NONCE']);
-        config()->set('thrust', [
+        session(['launch.oauth-state' => 'RANDOM-NONCE']);
+        config()->set('launch', [
             'client_secret' => 'SHOPIFY-CLIENT-SECRET',
             'scope' => ['READ', 'WRITE'],
         ]);
@@ -93,9 +93,9 @@ class RegisterShopOwnerTest extends TestCase
                 'myshopify_domain' => 'example.myshopify.com',
             ]);
 
-        $response = $this->withoutExceptionHandling()->get(route('thrust.register', $request));
+        $response = $this->withoutExceptionHandling()->get(route('launch.register', $request));
 
-        $response->assertRedirect(route('thrust.dashboard'));
+        $response->assertRedirect(route('launch.dashboard'));
         $this->assertTrue(Auth::check());
         $users = User::whereEmail('emily@example-shop.com')->get();
         $this->assertCount(2, $users);
@@ -106,12 +106,12 @@ class RegisterShopOwnerTest extends TestCase
     /** @test */
     function abort_registration_if_nonce_doesnt_match()
     {
-        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
-        session(['thrust.oauth-state' => 'THE-CORRECT-NONCE']);
+        config('launch.client_secret', 'VALID-CLIENT-SECRET');
+        session(['launch.oauth-state' => 'THE-CORRECT-NONCE']);
         $request= ['state' => 'AN-INVALID-NONCE'];
         $request['hmac'] = app(Request::class)->sign($request);
 
-        $response = $this->get(route('thrust.register', $request));
+        $response = $this->get(route('launch.register', $request));
 
         $response->assertStatus(403);
     }
@@ -119,12 +119,12 @@ class RegisterShopOwnerTest extends TestCase
     /** @test */
     function abort_registration_if_nonce_is_an_empty_string()
     {
-        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
-        session(['thrust.oauth-state' => '']);
+        config('launch.client_secret', 'VALID-CLIENT-SECRET');
+        session(['launch.oauth-state' => '']);
         $request= ['state' => ''];
         $request['hmac'] = app(Request::class)->sign($request);
 
-        $response = $this->get(route('thrust.register', $request));
+        $response = $this->get(route('launch.register', $request));
 
         $response->assertStatus(403);
     }
@@ -132,12 +132,12 @@ class RegisterShopOwnerTest extends TestCase
     /** @test */
     function abort_registration_if_stored_nonce_is_null()
     {
-        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
-        session(['thrust.oauth-state' => null]);
+        config('launch.client_secret', 'VALID-CLIENT-SECRET');
+        session(['launch.oauth-state' => null]);
         $request= ['state' => null];
         $request['hmac'] = app(Request::class)->sign($request);
 
-        $response = $this->get(route('thrust.register', $request));
+        $response = $this->get(route('launch.register', $request));
 
         $response->assertStatus(403);
     }
@@ -145,12 +145,12 @@ class RegisterShopOwnerTest extends TestCase
     /** @test */
     function abort_registration_if_hmac_validation_fails()
     {
-        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
-        session(['thrust.oauth-state' => 'THE-CORRECT-NONCE']);
+        config('launch.client_secret', 'VALID-CLIENT-SECRET');
+        session(['launch.oauth-state' => 'THE-CORRECT-NONCE']);
         $request= ['state' => 'THE-CORRECT-NONCE'];
         $request['hmac'] = (new Request('INVALID-CLIENT-SECRET'))->sign($request);
 
-        $response = $this->get(route('thrust.register', $request));
+        $response = $this->get(route('launch.register', $request));
 
         $response->assertStatus(403);
     }
@@ -158,8 +158,8 @@ class RegisterShopOwnerTest extends TestCase
     /** @test */
     function abort_registration_if_shop_domain_contains_special_characters()
     {
-        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
-        session(['thrust.oauth-state' => 'RANDOM-NONCE']);
+        config('launch.client_secret', 'VALID-CLIENT-SECRET');
+        session(['launch.oauth-state' => 'RANDOM-NONCE']);
         $request = [
             'shop' => '$example().myshopify.com',
             'code' => 'SHOPIFY-OAUTH-CODE',
@@ -167,7 +167,7 @@ class RegisterShopOwnerTest extends TestCase
         ];
         $request['hmac'] = app(Request::class)->sign($request);
 
-        $response = $this->get(route('thrust.register', $request));
+        $response = $this->get(route('launch.register', $request));
 
         $response->assertStatus(403);
     }
@@ -175,8 +175,8 @@ class RegisterShopOwnerTest extends TestCase
     /** @test */
     function abort_registration_if_shop_domain_doesnt_end_in_myshopify_dot_com()
     {
-        config('thrust.client_secret', 'VALID-CLIENT-SECRET');
-        session(['thrust.oauth-state' => 'RANDOM-NONCE']);
+        config('launch.client_secret', 'VALID-CLIENT-SECRET');
+        session(['launch.oauth-state' => 'RANDOM-NONCE']);
         $request = [
             'shop' => 'example-shop.com',
             'code' => 'SHOPIFY-OAUTH-CODE',
@@ -184,7 +184,7 @@ class RegisterShopOwnerTest extends TestCase
         ];
         $request['hmac'] = app(Request::class)->sign($request);
 
-        $response = $this->get(route('thrust.register', $request));
+        $response = $this->get(route('launch.register', $request));
 
         $response->assertStatus(403);
     }
@@ -197,8 +197,8 @@ class RegisterShopOwnerTest extends TestCase
 
         $response = $this->withoutExceptionHandling()
             ->actingAs($user)
-            ->get(route('thrust.register'));
+            ->get(route('launch.register'));
 
-        $response->assertRedirect(route('thrust.dashboard'));
+        $response->assertRedirect(route('launch.dashboard'));
     }
 }

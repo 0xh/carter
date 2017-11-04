@@ -1,5 +1,5 @@
 {
-  "name": "nickywoolf/thrust",
+  "name": "nickywoolf/launch",
   "license": "MIT",
   "authors": [
     {
@@ -21,7 +21,7 @@
   },
   "autoload": {
     "psr-4": {
-      "NickyWoolf\\Thrust\\": "src/"
+      "NickyWoolf\\Launch\\": "src/"
     }
   },
   "autoload-dev": {

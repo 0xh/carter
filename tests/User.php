@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Illuminate\Foundation\Auth\User as BaseUser;
-use NickyWoolf\Thrust\OwnsShop;
+use NickyWoolf\Launch\OwnsShop;
 
 class User extends BaseUser
 {

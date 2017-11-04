@@ -1,11 +1,11 @@
 <?php
 
-namespace NickyWoolf\Thrust\Http\Controllers;
+namespace NickyWoolf\Launch\Http\Controllers;
 
 class ExpiredSessionsController extends Controller
 {
     public function index()
     {
-        return view('thrust::embedded.expired-session');
+        return view('launch::embedded.expired-session');
     }
 }

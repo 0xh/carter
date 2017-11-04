@@ -1,22 +1,22 @@
 <?php
 
-namespace NickyWoolf\Thrust;
+namespace NickyWoolf\Launch;
 
 use Illuminate\Support\ServiceProvider;
 use NickyWoolf\Shopify\Request;
 use NickyWoolf\Shopify\Shopify;
 
-class ThrustServiceProvider extends ServiceProvider
+class LaunchServiceProvider extends ServiceProvider
 {
     public function boot()
     {
         $this->loadMigrationsFrom(__DIR__.'/migrations');
-        $this->loadViewsFrom(__DIR__.'/views', 'thrust');
-        $this->mergeConfigFrom(__DIR__.'/config.php', 'thrust');
+        $this->loadViewsFrom(__DIR__.'/views', 'launch');
+        $this->mergeConfigFrom(__DIR__.'/config.php', 'launch');
 
         $this->publishes([
-            __DIR__.'/config.php' => config_path('thrust.php'),
-            __DIR__.'/routes.php' => base_path('/routes/thrust.php'),
+            __DIR__.'/config.php' => config_path('launch.php'),
+            __DIR__.'/routes.php' => base_path('/routes/launch.php'),
         ]);
     }
 
@@ -27,7 +27,7 @@ class ThrustServiceProvider extends ServiceProvider
         });
 
         $this->app->bind(Request::class, function () {
-            return new Request(config('thrust.client_secret'));
+            return new Request(config('launch.client_secret'));
         });
     }
 }

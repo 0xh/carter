@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Mockery;
 use NickyWoolf\Shopify\Shopify;
-use NickyWoolf\Thrust\AccessToken;
+use NickyWoolf\Launch\AccessToken;
 use Tests\TestCase;
 
 class AccessTokenTest extends TestCase
@@ -12,7 +12,7 @@ class AccessTokenTest extends TestCase
     /** @test */
     function makes_request_to_shopify()
     {
-        config()->set('thrust', [
+        config()->set('launch', [
             'client_id' => 'CLIENT-ID',
             'client_secret' => 'CLIENT-SECRET',
         ]);

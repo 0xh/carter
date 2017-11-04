@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Thrust\Http\Middleware;
+namespace NickyWoolf\Launch\Http\Middleware;
 
 use Closure;
 

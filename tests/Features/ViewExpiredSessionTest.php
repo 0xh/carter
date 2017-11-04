@@ -13,9 +13,9 @@ class ViewExpiredSessionTest extends TestCase
     {
         $this->assertTrue(Auth::guest());
 
-        $response = $this->withoutExceptionHandling()->get(route('thrust.expired-session'));
+        $response = $this->withoutExceptionHandling()->get(route('launch.expired-session'));
 
-        $response->assertViewIs('thrust::embedded.expired-session');
+        $response->assertViewIs('launch::embedded.expired-session');
     }
 
     /** @test */
@@ -26,8 +26,8 @@ class ViewExpiredSessionTest extends TestCase
 
         $response = $this->withoutExceptionHandling()
             ->actingAs($user)
-            ->get(route('thrust.expired-session'));
+            ->get(route('launch.expired-session'));
 
-        $response->assertRedirect(route('thrust.dashboard'));
+        $response->assertRedirect(route('launch.dashboard'));
     }
 }

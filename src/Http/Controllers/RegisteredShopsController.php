@@ -1,9 +1,9 @@
 <?php
 
-namespace NickyWoolf\Thrust\Http\Controllers;
+namespace NickyWoolf\Launch\Http\Controllers;
 
-use Facades\NickyWoolf\Thrust\AccessToken;
-use Facades\NickyWoolf\Thrust\Shop;
+use Facades\NickyWoolf\Launch\AccessToken;
+use Facades\NickyWoolf\Launch\Shop;
 use Illuminate\Support\Facades\Auth;
 
 class RegisteredShopsController extends Controller
@@ -15,6 +15,6 @@ class RegisteredShopsController extends Controller
 
         Auth::login(config('auth.providers.users.model')::createForShop($shop, $token));
 
-        return redirect(route('thrust.dashboard'));
+        return redirect(route('launch.dashboard'));
     }
 }

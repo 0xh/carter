@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Thrust\Http\Middleware;
+namespace NickyWoolf\Launch\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
@@ -14,9 +14,9 @@ class Authenticate
         }
 
         if ($request->has('shop')) {
-            return redirect()->route('thrust.login', $request->only('shop'));
+            return redirect()->route('launch.login', $request->only('shop'));
         }
 
-        return redirect()->route('thrust.expired-session');
+        return redirect()->route('launch.expired-session');
     }
 }

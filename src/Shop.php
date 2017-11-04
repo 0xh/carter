@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Thrust;
+namespace NickyWoolf\Launch;
 
 use NickyWoolf\Shopify\Shopify;
 

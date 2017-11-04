@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Thrust\Http\Middleware;
+namespace NickyWoolf\Launch\Http\Middleware;
 
 use Closure;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +13,6 @@ class RedirectIfAuthenticated
             return $next($request);
         }
 
-        return redirect()->route('thrust.dashboard');
+        return redirect()->route('launch.dashboard');
     }
 }

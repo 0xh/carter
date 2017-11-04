@@ -2,7 +2,7 @@
 
 namespace Tests\Features;
 
-use Facades\NickyWoolf\Thrust\NonceGenerator;
+use Facades\NickyWoolf\Launch\NonceGenerator;
 use Tests\TestCase;
 use Tests\User;
 
@@ -11,14 +11,14 @@ class InstallAppTest extends TestCase
     /** @test */
     function request_access_to_shopify_shop_as_first_step()
     {
-        config()->set('thrust', [
+        config()->set('launch', [
             'client_id' => 'CLIENT-ID',
             'redirect_uri' => 'REDIRECT-URL',
             'scope' => ['READ', 'WRITE'],
         ]);
         NonceGenerator::shouldReceive('generate')->andReturn('RANDOM-NONCE');
 
-        $response = $this->withoutExceptionHandling()->get(route('thrust.install', [
+        $response = $this->withoutExceptionHandling()->get(route('launch.install', [
             'shop' => 'example.myshopify.com',
         ]));
 
@@ -32,20 +32,20 @@ class InstallAppTest extends TestCase
         $this->assertEquals('REDIRECT-URL', $query['redirect_uri']);
         $this->assertEquals('READ,WRITE', $query['scope']);
         $this->assertEquals('RANDOM-NONCE', $query['state']);
-        $this->assertEquals('RANDOM-NONCE', session('thrust.oauth-state'));
+        $this->assertEquals('RANDOM-NONCE', session('launch.oauth-state'));
     }
 
     /** @test */
     function install_route_handles_post_request()
     {
-        config()->set('thrust', [
+        config()->set('launch', [
             'client_id' => 'CLIENT-ID',
             'redirect_uri' => 'REDIRECT-URL',
             'scope' => ['READ', 'WRITE'],
         ]);
         NonceGenerator::shouldReceive('generate')->andReturn('RANDOM-NONCE');
 
-        $response = $this->withoutExceptionHandling()->post(route('thrust.install', [
+        $response = $this->withoutExceptionHandling()->post(route('launch.install', [
             'shop' => 'example.myshopify.com',
         ]));
 
@@ -58,11 +58,11 @@ class InstallAppTest extends TestCase
     /** @test */
     function redirect_to_sign_up_form_if_shop_domain_missing()
     {
-        $response = $this->withoutExceptionHandling()->get(route('thrust.install', [
+        $response = $this->withoutExceptionHandling()->get(route('launch.install', [
             'shop' => null,
         ]));
 
-        $response->assertRedirect(route('thrust.signup'));
+        $response->assertRedirect(route('launch.signup'));
     }
 
     /** @test */
@@ -73,11 +73,11 @@ class InstallAppTest extends TestCase
 
         $response = $this->withoutExceptionHandling()
             ->actingAs($user)
-            ->get(route('thrust.signup', [
+            ->get(route('launch.signup', [
                 'shop' => 'example.myshopify.com',
             ]));
 
-        $response->assertRedirect(route('thrust.dashboard'));
+        $response->assertRedirect(route('launch.dashboard'));
     }
 
     /** @test */
@@ -88,10 +88,10 @@ class InstallAppTest extends TestCase
 
         $response = $this->withoutExceptionHandling()
             ->actingAs($user)
-            ->get(route('thrust.install', [
+            ->get(route('launch.install', [
                 'shop' => 'example.myshopify.com',
             ]));
 
-        $response->assertRedirect(route('thrust.dashboard'));
+        $response->assertRedirect(route('launch.dashboard'));
     }
 }

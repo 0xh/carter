@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Thrust\Http\Controllers;
+namespace NickyWoolf\Launch\Http\Controllers;
 
 use Illuminate\Support\Facades\Auth;
 
@@ -12,6 +12,6 @@ class AuthenticatedShopsController extends Controller
 
         Auth::login($user);
 
-        return redirect(route('thrust.dashboard'));
+        return redirect(route('launch.dashboard'));
     }
 }
