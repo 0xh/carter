@@ -2,7 +2,7 @@
 
 namespace Tests\Unit;
 
-use NickyWoolf\Launch\NonceGenerator;
+use NickyWoolf\Carter\NonceGenerator;
 use Tests\TestCase;
 
 class NonceGeneratorTest extends TestCase

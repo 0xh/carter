@@ -4,7 +4,7 @@ namespace Tests\Unit;
 
 use Mockery;
 use NickyWoolf\Shopify\Shopify;
-use NickyWoolf\Launch\Shop;
+use NickyWoolf\Carter\Shop;
 use Tests\TestCase;
 
 class ShopTest extends TestCase

@@ -3,7 +3,7 @@
 namespace Tests;
 
 use Mockery;
-use NickyWoolf\Launch\LaunchServiceProvider;
+use NickyWoolf\Carter\CarterServiceProvider;
 use Orchestra\Database\ConsoleServiceProvider;
 use Orchestra\Testbench\TestCase as BaseTestCase;
 
@@ -33,7 +33,7 @@ class TestCase extends BaseTestCase
     {
         return [
             ConsoleServiceProvider::class,
-            LaunchServiceProvider::class,
+            CarterServiceProvider::class,
         ];
     }
 

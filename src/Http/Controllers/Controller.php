@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Launch\Http\Controllers;
+namespace NickyWoolf\Carter\Http\Controllers;
 
 use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Routing\Controller as BaseController;

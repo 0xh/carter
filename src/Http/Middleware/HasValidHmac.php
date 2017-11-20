@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Launch\Http\Middleware;
+namespace NickyWoolf\Carter\Http\Middleware;
 
 use Closure;
 use NickyWoolf\Shopify\Request;

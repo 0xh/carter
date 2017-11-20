@@ -1,9 +1,9 @@
 <?php
 
-namespace NickyWoolf\Launch\Http\Controllers;
+namespace NickyWoolf\Carter\Http\Controllers;
 
-use Facades\NickyWoolf\Launch\AccessToken;
-use Facades\NickyWoolf\Launch\Shop;
+use Facades\NickyWoolf\Carter\AccessToken;
+use Facades\NickyWoolf\Carter\Shop;
 use Illuminate\Support\Facades\Auth;
 
 class RegisteredShopsController extends Controller
@@ -15,6 +15,6 @@ class RegisteredShopsController extends Controller
 
         Auth::login(config('auth.providers.users.model')::createForShop($shop, $token));
 
-        return redirect(route('launch.dashboard'));
+        return redirect(route('carter.dashboard'));
     }
 }

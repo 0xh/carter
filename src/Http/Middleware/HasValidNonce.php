@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Launch\Http\Middleware;
+namespace NickyWoolf\Carter\Http\Middleware;
 
 use Closure;
 
@@ -17,6 +17,6 @@ class HasValidNonce
 
     protected function validNonce()
     {
-        return strlen(request('state')) && request('state') === session('launch.oauth-state');
+        return strlen(request('state')) && request('state') === session('carter.oauth-state');
     }
 }

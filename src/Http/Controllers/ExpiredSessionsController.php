@@ -1,11 +1,11 @@
 <?php
 
-namespace NickyWoolf\Launch\Http\Controllers;
+namespace NickyWoolf\Carter\Http\Controllers;
 
 class ExpiredSessionsController extends Controller
 {
     public function index()
     {
-        return view('launch::embedded.expired-session');
+        return view('carter::embedded.expired-session');
     }
 }

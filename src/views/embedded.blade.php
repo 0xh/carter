@@ -1,10 +1,10 @@
-@extends('launch::master')
+@extends('carter::master')
 
 @section('head')
     <script src="https://cdn.shopify.com/s/assets/external/app.js"></script>
     <script>
         ShopifyApp.init({
-            apiKey: "{{ config('launch.client_id') }}",
+            apiKey: "{{ config('carter.client_id') }}",
             shopOrigin: "{{ ($user = auth()->user()) ? "https://{$user->shopify_domain}" : '' }}",
             debug: {{ app()->environment('production') ? 'false' : 'true' }},
         });

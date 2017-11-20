@@ -1,4 +1,4 @@
-@extends('launch::embedded')
+@extends('carter::embedded')
 
 @section('script')
     <script>

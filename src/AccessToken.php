@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Launch;
+namespace NickyWoolf\Carter;
 
 use NickyWoolf\Shopify\Shopify;
 
@@ -21,8 +21,8 @@ class AccessToken
     protected function requestData($code)
     {
         return [
-            'client_id' => config('launch.client_id'),
-            'client_secret' => config('launch.client_secret'),
+            'client_id' => config('carter.client_id'),
+            'client_secret' => config('carter.client_secret'),
             'code' => $code,
         ];
     }

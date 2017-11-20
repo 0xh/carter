@@ -1,6 +1,6 @@
 <?php
 
-namespace NickyWoolf\Launch\Http\Middleware;
+namespace NickyWoolf\Carter\Http\Middleware;
 
 use Closure;
 
@@ -12,6 +12,6 @@ class HasShopDomain
             return $next($request);
         }
 
-        return redirect(route('launch.signup'));
+        return redirect(route('carter.signup'));
     }
 }

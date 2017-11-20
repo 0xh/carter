@@ -1,4 +1,4 @@
-@extends('launch::embedded')
+@extends('carter::embedded')
 
 @section('content')
     <link href="https://fonts.googleapis.com/css?family=Nunito:400|Open+Sans:300" rel="stylesheet">
@@ -49,7 +49,7 @@
     </style>
 
     <div>
-        <h1>Launch</h1>
+        <h1>Carter</h1>
         <h2>🚀</h2>
     </div>
 @stop
